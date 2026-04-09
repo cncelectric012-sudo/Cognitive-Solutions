@@ -501,7 +501,6 @@ button,input,select,textarea{font-family:inherit;border:none;outline:none;font-s
     <div style="font-size:12px;font-weight:800;color:var(--G5);margin-bottom:6px">💰 Deductions</div>
     <div id="my-ded-rows"></div>
     <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid var(--G8);margin-top:4px"><span style="font-size:13px;font-weight:800">Total Deduction</span><span style="font-size:15px;font-weight:800;color:var(--R)" id="my-ded-total">Rs 0</span></div>
-    <div style="margin-top:8px"><button class="jbtn jbtn-ghost" onclick="App.resetMyData()" style="width:100%;font-size:11px;padding:6px;background:#fee;color:#c00;border:1px solid #f88">🔄 Reset to Zero Deductions</button></div>
   </div>
   <!-- Attendance list -->
   <div id="my-att-list"></div>
@@ -753,7 +752,7 @@ function hideLoad(){document.getElementById('load-ov').classList.remove('on')}
 var U={
   toast:function(m,t){var e=document.createElement('div');e.className='toast t-'+(t||'info');e.textContent=m;document.getElementById('toasts').appendChild(e);setTimeout(function(){e.remove()},2800)},
   today:function(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')},
-  dedCutoff:function(){var n=new Date();if(n.getHours()<17){n.setDate(n.getDate()-1)}return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')},
+  dedCutoff:function(){var n=new Date();n.setDate(n.getDate()-1);return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')},
   time:function(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')},
   ts:function(){return new Date().toISOString()},
   clr:function(n){n=n||'';var h=0;for(var i=0;i<n.length;i++)h=(h<<5)-h+n.charCodeAt(i)|0;return['#7f1d1d','#991b1b','#b91c1c','#dc2626','#404040','#1a1a1a'][Math.abs(h)%6]},
@@ -875,6 +874,9 @@ nav:function(pg,btn){
 
 /* ── Reset Employee Data (Zero deductions) ── */
 resetMyData:async function(){
+  /* Only admin can reset/delete deductions */
+  U.toast('⛔ Deductions can only be reset by admin','warn');
+  return;
   if(!confirm('⚠️ This will DELETE all your attendance and activity reports!\n\nDeductions will be reset to zero.\n\nThis action CANNOT be undone.\n\nContinue?')){return}
   if(!confirm('🔴 FINAL WARNING: All your data will be permanently deleted!\n\nClick OK only if you are absolutely sure.')){return}
   showLoad('Resetting','Clearing all your records...');
