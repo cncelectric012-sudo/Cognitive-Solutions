@@ -5089,6 +5089,17 @@
         <div style="font-weight:800;color:var(--R);margin-bottom:4px">⚠️ Missing Reports Today</div>
         <div id="ar-missing-names" style="color:var(--G3);line-height:1.6"></div>
       </div>
+      <!-- Download & Action Section -->
+      <div style="background:linear-gradient(135deg,#f8f8f8,#ffffff);border:2px solid var(--G8);border-radius:10px;padding:12px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <div style="font-weight:600;color:var(--G4);font-size:11px">🎯 View & Download Activities</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-R btn-sm" onclick="App.loadAdmRpts()" style="background:#b91c1c;padding:6px 10px;font-size:11px;font-weight:600">🔄 Refresh Data</button>
+            <button class="btn btn-R btn-sm" onclick="App.dlAdmRptPdf()" style="background:#dc2626;padding:6px 10px;font-size:11px;font-weight:600">⬇️ Download PDF</button>
+            <button class="btn btn-sm" style="background:var(--grn);color:white;border:none;padding:6px 10px;font-size:11px;font-weight:600;border-radius:6px;cursor:pointer" onclick="App.dlAdmRptExcel()">⬇️ Download Excel</button>
+          </div>
+        </div>
+      </div>
       <!-- Tag Cloud -->
       <div id="ar-tags" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px"></div>
       <!-- Actions Bar -->
@@ -5734,7 +5745,7 @@
       anav: function (p) {
         S.p('nav'); document.querySelectorAll('#s-admin .pg').forEach(function (x) { x.classList.remove('on') }); document.getElementById('ap-' + p).classList.add('on');
         if (p === 'att') { App.initAttendTab().then(function () { if (_admInited && !_admAttRows.length) App.loadAdmAtt() }) }
-        if (p === 'rpts' && _admInited && !_admRptRows.length) App.loadAdmRpts();
+        if (p === 'rpts') { if (_admInited) App.loadAdmRpts(); }
         if (p === 'vis' && _admInited && !_admVisRows.length) App.loadAdmVis();
         if (p === 'plan') App.loadAdmPlans();
         if (p === 'cal') App.initAdmCalDd();
